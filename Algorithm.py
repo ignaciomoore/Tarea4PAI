@@ -1,7 +1,12 @@
 
+from Calculations import *
+
 def multipleLineAlgorithm(imageA, imageB, linesA, linesB):
 
+    #   Morphs al pixels in A into B
+
     sizeA = imageA.shape
+    sizeB = imageB.shape
 
     DSUM = (0, 0)
     weightSum = 0
@@ -12,22 +17,34 @@ def multipleLineAlgorithm(imageA, imageB, linesA, linesB):
     dist = 0
     length = 0
 
-    for X in range(sizeA[0]):
+    X = (0, 0)
+    PQ = ((0, 0), (1, 1))
 
-        DSUM = (0, 0)
-        weightSum = 0
+    newImage = getEmptyImage(sizeA, sizeB)
 
-        for PQ in linesA:
+    for x in range(sizeA[1]):
+        for y in range(sizeA[0]):
 
-            length = len(PQ)
+            X = (x, y)
 
-            UV = calculateUV(PQ)
-            Xprime = calculateXprime(UV, PQ)
-            D = substract(Xprime, X)
-            dist = distance(X, PQ)
-            weight = calculateWeight(length, dist)
-            DSUM += D * weight
-            weightSum += weight
+            DSUM = (0, 0)
+            weightSum = 0
 
-        Xprime = X + DSUM/weightSum
-        # destinationImage(X) = sourceImage(Xprime)
+            for i in range(len(linesA)):
+
+                PQ = linesA[i]
+                length = len(PQ)
+
+                UV = calculateUV(PQ, X)
+                Xprime = calculateXprime(UV, linesB[i])
+                D = substract(Xprime, X)
+                dist = distance(X, PQ)
+                weight = calculateWeight(length, dist)
+                DSUM += D * weight
+                weightSum += weight
+
+            Xprime = X + DSUM/weightSum
+            # destinationImage(X) = sourceImage(Xprime)
+            imageB[y][x] = imageA[y][x]
+
+    return imageB
