@@ -29,12 +29,15 @@ def twoImageMorphing(imageA, imageB, linesA, linesB):
     firstHalfInterpolation = interpolateLines(linesA, middleInterpolation)
     secondHalfInterpolation = interpolateLines(middleInterpolation, linesB)
 
-    #firstHalfImage =
     middleImageFromA = multipleLineAlgorithm(imageA, imageB, linesA, middleInterpolation)
     middleImageFromB = multipleLineAlgorithm(imageB, imageA, linesB, middleInterpolation)
-    #SecondHalfImage =
+    firstHalfImageFromA = multipleLineAlgorithm(imageA, imageB, linesA, firstHalfInterpolation)
+    firstHalfImageFromB = multipleLineAlgorithm(imageB, imageA, linesB, firstHalfInterpolation)
+    secondHalfImageFromA = multipleLineAlgorithm(imageA, imageB, linesA, secondHalfInterpolation)
+    secondHalfImageFromB = multipleLineAlgorithm(imageB, imageA, linesB, secondHalfInterpolation)
 
-    imageFromA = multipleLineAlgorithm(imageA, imageB, linesA, linesB)
+    firstImageFromA = multipleLineAlgorithm(imageA, imageB, linesA, linesB)
     imageFromB = multipleLineAlgorithm(imageB, imageA, linesB, linesA)
 
-    return (imageFromA, imageFromB)
+    return [[firstHalfImageFromA, middleImageFromA, secondHalfImageFromA],
+            [firstHalfImageFromB, middleImageFromB, secondHalfImageFromB]]

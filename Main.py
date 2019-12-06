@@ -40,8 +40,20 @@ if __name__ == '__main__':
 
     morphedImage = twoImageMorphing(peugeotImage, fordImage, peugeotLines, fordLines)
 
-    skio.imshow(morphedImage[0])
+    skio.imshow(morphedImage[0][0])
     plt.show()
 
-    skio.imshow(morphedImage[1])
+    skio.imshow(morphedImage[0][1])
+    plt.show()
+
+    skio.imshow(morphedImage[0][2])
+    plt.show()
+
+    skio.imshow(morphedImage[1][0])
+    plt.show()
+
+    skio.imshow(morphedImage[1][1])
+    plt.show()
+
+    skio.imshow(morphedImage[1][2])
     plt.show()
