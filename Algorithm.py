@@ -3,24 +3,12 @@ from Calculations import *
 
 def multipleLineAlgorithm(imageA, imageB, linesA, linesB):
 
-    #   Morphs al pixels in A into B
+    #   Morphs A pixels in A into B
 
     sizeA = imageA.shape
-    sizeB = imageB.shape
 
-    DSUM = (0, 0)
-    weightSum = 0
-    UV = (0, 0)
-    D = (0, 0)
-    weight = 0
-    Xprime = (0, 0)
-    dist = 0
-    length = 0
-
-    X = (0, 0)
-    PQ = ((0, 0), (1, 1))
-
-    newImage = getEmptyImage(sizeA, sizeB)
+    newImage = imageInNewShape(imageB)
+    #newImage = np.zeros(imageB.shape)
 
     for x in range(sizeA[1]):
         for y in range(sizeA[0]):
@@ -33,18 +21,31 @@ def multipleLineAlgorithm(imageA, imageB, linesA, linesB):
             for i in range(len(linesA)):
 
                 PQ = linesA[i]
-                length = len(PQ)
+                length = lineLength(PQ)
 
                 UV = calculateUV(PQ, X)
                 Xprime = calculateXprime(UV, linesB[i])
                 D = substract(Xprime, X)
                 dist = distance(X, PQ)
                 weight = calculateWeight(length, dist)
-                DSUM += D * weight
+                DSUM = add2(DSUM, multiply(weight, D))
                 weightSum += weight
 
-            Xprime = X + DSUM/weightSum
+            Xprime = add2(X, devide(DSUM, weightSum))
+            Xprime = (int(Xprime[0]), int(Xprime[1]))
             # destinationImage(X) = sourceImage(Xprime)
-            imageB[y][x] = imageA[y][x]
+            newImage[Xprime[1]][Xprime[0]] = imageA[y][x]
 
-    return imageB
+            '''
+            if Xprime[0] < minX:
+                minX = Xprime[0]
+            elif Xprime[0] > maxX:
+                maxX = Xprime[0]
+
+            if Xprime[1] < minY:
+                minY = Xprime[1]
+            elif Xprime[1] > maxY:
+                maxY = Xprime[1]
+            '''
+
+    return newImage

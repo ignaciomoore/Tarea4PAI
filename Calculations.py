@@ -37,9 +37,13 @@ def calculateUV(PQ, X):
     return (u, v)
 
 
-def add(p, q, w):
+def add3(p, q, w):
     return (p[0] + q[0] + w[0], 
             p[1] + q[1] + w[1])
+
+def add2(p, q):
+    return (p[0] + q[0],
+            p[1] + q[1])
 
 
 def devide(point, num):
@@ -57,8 +61,8 @@ def calculateXprime(UV, PQ):
     u = UV[0]
     v = UV[1]
 
-    Xprime = add(p, multiply(u, substract(q, p)), devide(multiply(v, perpendicular(substract(q, p))),
-                                                         module(substract(q, p))))
+    Xprime = add3(p, multiply(u, substract(q, p)), devide(multiply(v, perpendicular(substract(q, p))),
+                                                          module(substract(q, p))))
 
     return (int(Xprime[0]), int(Xprime[1]))
 
@@ -84,8 +88,25 @@ def calculateWeight(length, distance):
 
     return math.pow(math.pow(length, p) / (a + distance), b)
 
-def getEmptyImage(shapeA, shapeB):
+def imageInNewShape(image):
 
-    newShape = (max(shapeA[0], shapeB[0]), max(shapeA[1], shapeB[1]))
+    shape = image.shape
 
-    return np.zeros(newShape)
+    newShape = (int(shape[0] * 1.5),
+                int(shape[1] * 1.5))
+
+    newImage = np.zeros(newShape)
+
+    for i in range(shape[0]):
+        for j in range(shape[1]):
+            newImage[i][j] = image[i][j]
+
+    return newImage
+
+
+def lineLength(PQ):
+
+    p = PQ[0]
+    q = PQ[1]
+
+    return math.sqrt(math.pow(q[0] - p[0], 2) + math.pow(q[1] - p[1], 2))
