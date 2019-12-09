@@ -8,12 +8,47 @@ from Morphing import *
 
 if __name__ == '__main__':
 
-    peugeotImage = skio.imread("peugeot-207.jpeg")
-    peugeotImage = rgb2gray(peugeotImage)
+    #peugeotImage = skio.imread("peugeot-207.jpeg")
+    #peugeotImage = rgb2gray(peugeotImage)
 
-    fordImage = skio.imread("ford-gt-2005.jpg")
-    fordImage = rgb2gray(fordImage)
+    #fordImage = skio.imread("ford-gt-2005.jpg")
+    #fordImage = rgb2gray(fordImage)
 
+    ford = cv.imread("ford-gt-2005.jpg")
+    peugeot = cv.imread("peugeot-207.jpeg")
+
+    grayFord = cv.cvtColor(ford, cv.COLOR_BGR2GRAY)
+    grayPeugeot = cv.cvtColor(peugeot, cv.COLOR_BGR2GRAY)
+
+    print(grayFord.shape)
+    print(grayPeugeot.shape)
+
+    newShape = (max(grayFord.shape[0], grayPeugeot.shape[0]), max(grayFord.shape[1], grayPeugeot.shape[1]))
+
+    print(newShape)
+
+    newFord = np.zeros(newShape)
+    newPeugeot = np.zeros(newShape)
+
+    for i in range(peugeot.shape[0]):
+        for j in range(peugeot.shape[1]):
+            newPeugeot[i][j] = grayPeugeot[i][j]
+
+    for i in range(ford.shape[0]):
+        for j in range(ford.shape[1]):
+            newFord[i][j] = grayFord[i][j]
+
+    res = cv.addWeighted(newFord, 0.5, newPeugeot, 0.5, 0.0)
+
+    f = cv.resize(grayFord, (newShape[1], newShape[0]))
+
+    d = cv.resize(peugeot, (ford.shape[1], ford.shape[0]))
+
+    #cv.imshow("Blend", res)
+    cv.imshow("Ford", d)
+    cv.waitKey(0)
+    '''
+    
     shape = peugeotImage.shape
 
     a = (2, 2)
@@ -40,20 +75,9 @@ if __name__ == '__main__':
 
     morphedImage = twoImageMorphing(peugeotImage, fordImage, peugeotLines, fordLines)
 
-    skio.imshow(morphedImage[0][0])
-    plt.show()
+    res = cv.addWeighted(morphedImage[0][1], 0.5, morphedImage[1][1], 0.5, 0.0)
 
-    skio.imshow(morphedImage[0][1])
+    skio.imshow(res)
     plt.show()
-
-    skio.imshow(morphedImage[0][2])
-    plt.show()
-
-    skio.imshow(morphedImage[1][0])
-    plt.show()
-
-    skio.imshow(morphedImage[1][1])
-    plt.show()
-
-    skio.imshow(morphedImage[1][2])
-    plt.show()
+    
+    '''

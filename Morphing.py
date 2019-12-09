@@ -1,5 +1,6 @@
 
 from Algorithm import multipleLineAlgorithm
+import cv2 as cv
 
 def interpolateValues(p, q):
     return int(q + ((p - q) / 2))
@@ -29,15 +30,15 @@ def twoImageMorphing(imageA, imageB, linesA, linesB):
     firstHalfInterpolation = interpolateLines(linesA, middleInterpolation)
     secondHalfInterpolation = interpolateLines(middleInterpolation, linesB)
 
-    middleImageFromA = multipleLineAlgorithm(imageA, imageB, linesA, middleInterpolation)
-    middleImageFromB = multipleLineAlgorithm(imageB, imageA, linesB, middleInterpolation)
-    firstHalfImageFromA = multipleLineAlgorithm(imageA, imageB, linesA, firstHalfInterpolation)
-    firstHalfImageFromB = multipleLineAlgorithm(imageB, imageA, linesB, firstHalfInterpolation)
-    secondHalfImageFromA = multipleLineAlgorithm(imageA, imageB, linesA, secondHalfInterpolation)
-    secondHalfImageFromB = multipleLineAlgorithm(imageB, imageA, linesB, secondHalfInterpolation)
+    A2 = multipleLineAlgorithm(imageA, imageB, linesA, middleInterpolation)
+    B2 = multipleLineAlgorithm(imageB, imageA, linesB, middleInterpolation)
+    A1 = multipleLineAlgorithm(imageA, imageB, linesA, firstHalfInterpolation)
+    B3 = multipleLineAlgorithm(imageB, imageA, linesB, firstHalfInterpolation)
+    A3 = multipleLineAlgorithm(imageA, imageB, linesA, secondHalfInterpolation)
+    B1 = multipleLineAlgorithm(imageB, imageA, linesB, secondHalfInterpolation)
 
     firstImageFromA = multipleLineAlgorithm(imageA, imageB, linesA, linesB)
     imageFromB = multipleLineAlgorithm(imageB, imageA, linesB, linesA)
 
-    return [[firstHalfImageFromA, middleImageFromA, secondHalfImageFromA],
-            [firstHalfImageFromB, middleImageFromB, secondHalfImageFromB]]
+    return [[A1, A2, A3],
+            [B3, B2, B1]]
