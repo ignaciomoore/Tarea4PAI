@@ -96,11 +96,6 @@ def imageInNewShape(image):
                 int(shape[1] * 1.5))
 
     newImage = np.zeros(newShape)
-    '''
-    for i in range(shape[0]):
-        for j in range(shape[1]):
-            newImage[i][j] = image[i][j]
-    '''
     return newImage
 
 

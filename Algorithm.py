@@ -4,13 +4,10 @@ import cv2 as cv
 
 def multipleLineAlgorithm(imageA, imageB, linesA, linesB):
 
-    #   Morphs A pixels in A into B
+    #   Morphs pixels in A into B
 
     sizeA = imageA.shape
-
-    #newImage = imageInNewShape(imageB)
     newImage = np.zeros(imageA.shape)
-    #newImage = np.copy(imageA)
 
     for x in range(sizeA[1]):
         for y in range(sizeA[0]):
@@ -38,18 +35,6 @@ def multipleLineAlgorithm(imageA, imageB, linesA, linesB):
             # destinationImage(X) = sourceImage(Xprime)
             if (Xprime[0] < newImage.shape[1] and Xprime[1] < newImage.shape[0]):
                 newImage[Xprime[1]][Xprime[0]] = imageA[y][x]
-
-            '''
-            if Xprime[0] < minX:
-                minX = Xprime[0]
-            elif Xprime[0] > maxX:
-                maxX = Xprime[0]
-
-            if Xprime[1] < minY:
-                minY = Xprime[1]
-            elif Xprime[1] > maxY:
-                maxY = Xprime[1]
-            '''
 
     newImage = newImage.astype(np.uint8)
 
