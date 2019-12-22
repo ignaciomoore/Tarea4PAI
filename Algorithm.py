@@ -1,5 +1,6 @@
 
 from Calculations import *
+import cv2 as cv
 
 def multipleLineAlgorithm(imageA, imageB, linesA, linesB):
 
@@ -7,8 +8,9 @@ def multipleLineAlgorithm(imageA, imageB, linesA, linesB):
 
     sizeA = imageA.shape
 
-    newImage = imageInNewShape(imageB)
-    #newImage = np.zeros(imageB.shape)
+    #newImage = imageInNewShape(imageB)
+    newImage = np.zeros(imageA.shape)
+    #newImage = np.copy(imageA)
 
     for x in range(sizeA[1]):
         for y in range(sizeA[0]):
@@ -34,7 +36,8 @@ def multipleLineAlgorithm(imageA, imageB, linesA, linesB):
             Xprime = add2(X, devide(DSUM, weightSum))
             Xprime = (int(Xprime[0]), int(Xprime[1]))
             # destinationImage(X) = sourceImage(Xprime)
-            newImage[Xprime[1]][Xprime[0]] = imageA[y][x]
+            if (Xprime[0] < newImage.shape[1] and Xprime[1] < newImage.shape[0]):
+                newImage[Xprime[1]][Xprime[0]] = imageA[y][x]
 
             '''
             if Xprime[0] < minX:
@@ -47,5 +50,7 @@ def multipleLineAlgorithm(imageA, imageB, linesA, linesB):
             elif Xprime[1] > maxY:
                 maxY = Xprime[1]
             '''
+
+    newImage = newImage.astype(np.uint8)
 
     return newImage

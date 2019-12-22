@@ -1,6 +1,5 @@
 
-from Algorithm import multipleLineAlgorithm
-import cv2 as cv
+from Algorithm import *
 
 def interpolateValues(p, q):
     return int(q + ((p - q) / 2))
@@ -27,18 +26,21 @@ def interpolateLines(linesA, linesB):
 def twoImageMorphing(imageA, imageB, linesA, linesB):
 
     middleInterpolation = interpolateLines(linesA, linesB)
-    firstHalfInterpolation = interpolateLines(linesA, middleInterpolation)
-    secondHalfInterpolation = interpolateLines(middleInterpolation, linesB)
+    AHalfInterpolation = interpolateLines(linesA, middleInterpolation)
+    BHalfInterpolation = interpolateLines(middleInterpolation, linesB)
+
+    A1 = multipleLineAlgorithm(imageA, imageB, linesA, AHalfInterpolation)
+    B3 = multipleLineAlgorithm(imageB, imageA, linesB, AHalfInterpolation)
 
     A2 = multipleLineAlgorithm(imageA, imageB, linesA, middleInterpolation)
     B2 = multipleLineAlgorithm(imageB, imageA, linesB, middleInterpolation)
-    A1 = multipleLineAlgorithm(imageA, imageB, linesA, firstHalfInterpolation)
-    B3 = multipleLineAlgorithm(imageB, imageA, linesB, firstHalfInterpolation)
-    A3 = multipleLineAlgorithm(imageA, imageB, linesA, secondHalfInterpolation)
-    B1 = multipleLineAlgorithm(imageB, imageA, linesB, secondHalfInterpolation)
 
-    firstImageFromA = multipleLineAlgorithm(imageA, imageB, linesA, linesB)
-    imageFromB = multipleLineAlgorithm(imageB, imageA, linesB, linesA)
+    A3 = multipleLineAlgorithm(imageA, imageB, linesA, BHalfInterpolation)
+    B1 = multipleLineAlgorithm(imageB, imageA, linesB, BHalfInterpolation)
 
-    return [[A1, A2, A3],
-            [B3, B2, B1]]
+
+    AHalfImage = cv.addWeighted(A1, 0.75, B3, 0.25, 0.0)
+    middleImage = cv.addWeighted(A2, 0.5, B2, 0.5, 0.0)
+    BHalfImage = cv.addWeighted(A3, 0.25, B1, 0.75, 0.0)
+
+    return [imageA, AHalfImage, middleImage, BHalfImage, imageB]

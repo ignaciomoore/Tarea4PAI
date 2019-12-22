@@ -96,11 +96,11 @@ def imageInNewShape(image):
                 int(shape[1] * 1.5))
 
     newImage = np.zeros(newShape)
-
+    '''
     for i in range(shape[0]):
         for j in range(shape[1]):
             newImage[i][j] = image[i][j]
-
+    '''
     return newImage
 
 
@@ -110,3 +110,26 @@ def lineLength(PQ):
     q = PQ[1]
 
     return math.sqrt(math.pow(q[0] - p[0], 2) + math.pow(q[1] - p[1], 2))
+
+def readLines(lines):
+
+    aLines = []
+    bLines = []
+
+    file = open(lines, "r")
+
+    for line in file:
+
+        points = line.find(':')
+        pair = line[points+2:]
+        pair = pair.split(', ')
+        for i in range(len(pair)):
+            pair[i] = int(pair[i])
+
+        p1 = pair[:4]
+        p2 = pair[4:]
+
+        aLines.append(((p1[0], p1[1]), (p1[2], p1[3])))
+        bLines.append(((p2[0], p2[1]), (p2[2], p2[3])))
+
+    return (aLines, bLines)
